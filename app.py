@@ -1,8 +1,11 @@
 from flask import Flask, jsonify, request
 import covid19_news
+import covid19_twitter
 
-#TODO: Refactor location setting instruction
-
+#TODO
+# . Refactor location setting instruction
+# . Add bookmark feature? Allow categories of bookmarks?
+# . Allow some sort of anaylsis of bookmarks/searched data?
 
 
 app = Flask(__name__)
@@ -19,6 +22,7 @@ def updates():
     return jsonify(data)
 
 
+# TODO: Get tweets
 @app.route("/tweets")
 def tweets():
     """
@@ -30,6 +34,7 @@ def tweets():
     return jsonify(data)
 
 
+# TODO: Get recent YouTube vids
 @app.route("/videos")
 def videos():
     """

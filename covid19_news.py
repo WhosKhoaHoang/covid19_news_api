@@ -35,7 +35,7 @@ user_agent_list = [
 USER_AGENT = random.choice(user_agent_list)
 
 
-
+# TODO: Make this function apart of a class
 def recent_news(location):
     """
     Gets recent news updates for a given location by
@@ -48,6 +48,7 @@ def recent_news(location):
                 * "link" (URL to news article)
     rtype: [dict]
     """
+    # TODO: Allow the query to be more flexible
     query = "coronavirus+updates+{}".format(location)
     URL = f"https://google.com/search?q={query}"
 
@@ -74,4 +75,5 @@ def recent_news(location):
 
 
 if __name__ == "__main__":
-    get_news_updates("california")
+    lst = recent_news("california")
+    print(lst)
