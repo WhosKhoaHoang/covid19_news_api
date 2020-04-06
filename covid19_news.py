@@ -35,45 +35,67 @@ user_agent_list = [
 USER_AGENT = random.choice(user_agent_list)
 
 
-# TODO: Make this function apart of a class
-def recent_news(location):
+class Covid19News:
     """
-    Gets recent news updates for a given location by
-    parsing a Google search result.
-    @location: The location to get recent coronavirus
-               news for.
-    type location: str
-    return: A list of dicts with the following keys:
-                * "title" (news article title)
-                * "link" (URL to news article)
-    rtype: [dict]
+    A class that retrieves and processes news about COVID-19
+    by scraping Google search results.
     """
-    # TODO: Allow the query to be more flexible
-    query = "coronavirus+updates+{}".format(location)
-    URL = f"https://google.com/search?q={query}"
 
-    headers = { "user-agent": USER_AGENT }
-    resp = requests.get(URL, headers=headers)
-    results = []
-    if resp.status_code == 200:
-        print("\n\n***REQUEST SUCCESSFUL***\n\n")
-        soup = BeautifulSoup(resp.content, "html.parser")
-        for g in soup.find_all("div", class_="r"):
-            anchors = g.find_all("a")
-            if anchors:
-                link = anchors[0]["href"]
-                title = g.find("h3").text
-                item = {
-                    "title": title,
-                    "link": link
-                }
-                results.append(item)
+    def __init__(self, user_agent=USER_AGENT):
+        """
+        Initializes an instance of Covid19News.
+        @user_agent: The user agent to assume the value
+                     for "user-agent" in the HTTP header
+                     sent in the GET request for a Google
+                     search query.
+        type user_agent: str
+        return: None
+        rtype: None
+        """
+        self._user_agent = user_agent
 
-    return results
+
+    # TODO: Fix issue of how this method sometimes does
+    #       not return any results...
+    def get_recent_news(self, location):
+        """
+        Gets recent news updates for a given location by
+        parsing a Google search result.
+        @location: The location to get recent coronavirus
+                   news for.
+        type location: str
+        return: A list of dicts with the following keys:
+                    * "title" (news article title)
+                    * "link" (URL to news article)
+        rtype: [dict]
+        """
+        # TODO: Allow the query to be more flexible
+        query = "coronavirus+updates+{}".format(location)
+        URL = f"https://google.com/search?q={query}"
+
+        headers = { "user-agent": self._user_agent }
+        resp = requests.get(URL, headers=headers)
+        results = []
+        if resp.status_code == 200:
+            print("\n\n***REQUEST SUCCESSFUL***\n\n")
+            soup = BeautifulSoup(resp.content, "html.parser")
+            for g in soup.find_all("div", class_="r"):
+                anchors = g.find_all("a")
+                if anchors:
+                    link = anchors[0]["href"]
+                    title = g.find("h3").text
+                    item = {
+                        "title": title,
+                        "link": link
+                    }
+                    results.append(item)
+
+        return results
 
 
 
 
 if __name__ == "__main__":
-    lst = recent_news("california")
+    c_news = Covid19News()
+    lst = c_news.get_recent_news("california")
     print(lst)

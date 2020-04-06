@@ -22,7 +22,6 @@ def updates():
     return jsonify(data)
 
 
-# TODO: Get tweets
 @app.route("/tweets")
 def tweets():
     """
